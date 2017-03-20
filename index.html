@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Eco Graffiti</title>
+    <link rel="stylesheet" href="style.min.css">
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous">
+    </script>
+  </head>
+  <body>
+    <nav>
+      <img id="logo"/>
+      <ul>
+        <li>
+          <a href="*">sketch</a>
+          <a href="*">gallery</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div id="upload-designs">
+      <form enctype="multipart/form-data" id="upload-form">
+        <input type="text" name="name" placeholder="name"/>
+        <input type="text" name="email" placeholder="email"/>
+        <div id="drop-files">
+          <input type="file" name="fileToUpload" multiple="false" class="file-input" id="file">
+          <label for="file" id="file-input-label">Choose a file</label>
+        </div>
+        <input type="submit" value="submit your design" name="submit" id="submit">
+      </form>
+    </div>
+
+    <script>
+      $(document).ready(function() {
+        var dropFile;
+        var label = document.getElementById("file-input-label");
+        var labelVal = "Choose a file"
+
+        $("#drop-files").on("drop dragend dragstart dragenter dragleave drag dragover", function(event) {
+          event.preventDefault();
+          if (event.type === "drop") {
+              var dropFile = event.originalEvent.dataTransfer.files;
+              label.innerHTML = dropFile[0].name;
+          }
+        });
+
+        $("#file").on("change", function(event){
+          var fileName = '';
+        	if( this.files && this.files.length > 1 )
+        		fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+        	else
+        		fileName = event.target.value.split( '\\' ).pop();
+
+      		if( fileName )
+      			label.innerHTML = fileName;
+      		else
+      			label.innerHTML = labelVal;
+        });
+
+
+        $('#upload-form').submit(function() {
+           // add your files to the regular upload form
+          var uploadFormData = new FormData($("#upload-form")[0]);
+          if(dropFile.length > 0) { // checks if any files were dropped
+                  // adding every file to the form so you could upload multiple files
+                  uploadFormData.append("files[]",droppedFiles[0]);
+          }
+
+         $.ajax({
+          url : "upload.php", // use your target
+          type : "POST",
+          data : uploadFormData,
+          cache : false,
+          contentType : false,
+          processData : false,
+          success : function(ret) {
+                   // callback function
+          }
+         });
+       });
+     });
+    </script>
+  </body>
+</html>
