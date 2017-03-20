@@ -3,6 +3,7 @@
   <head>
     <title>Eco Graffiti</title>
     <link rel="stylesheet" href="style.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script
       src="https://code.jquery.com/jquery-3.2.1.min.js"
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -32,6 +33,10 @@
       </form>
     </div>
 
+    <div id="error-box">
+
+    </div>
+
     <script>
       $(document).ready(function() {
         var dropFile;
@@ -41,7 +46,7 @@
         $("#drop-files").on("drop dragend dragstart dragenter dragleave drag dragover", function(event) {
           event.preventDefault();
           if (event.type === "drop") {
-              var dropFile = event.originalEvent.dataTransfer.files;
+              dropFile = event.originalEvent.dataTransfer.files;
               label.innerHTML = dropFile[0].name;
           }
         });
@@ -60,13 +65,16 @@
         });
 
 
-        $('#upload-form').submit(function() {
+        $('#upload-form').on("submit", function() {
+          event.preventDefault();
            // add your files to the regular upload form
           var uploadFormData = new FormData($("#upload-form")[0]);
-          if(dropFile.length > 0) { // checks if any files were dropped
+          if(dropFile != null) { // checks if any files were dropped
                   // adding every file to the form so you could upload multiple files
-                  uploadFormData.append("files[]",droppedFiles[0]);
+                  uploadFormData.append("dropFile",dropFile[0]);
           }
+
+          console.log(uploadFormData.entries()["dropFile"]);
 
          $.ajax({
           url : "upload.php", // use your target
@@ -76,7 +84,11 @@
           contentType : false,
           processData : false,
           success : function(ret) {
-                   // callback function
+              console.log(ret);
+          },
+          error : function (err){
+            document.getElementById('error-box').innerHTML=err;
+              //console.log(err);
           }
          });
        });
