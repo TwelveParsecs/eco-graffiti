@@ -2,8 +2,12 @@
 <html>
   <head>
     <title>Eco Graffiti</title>
-    <link rel="stylesheet" href="style.min.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+    <link rel="stylesheet" href="style.min.css">
+
     <script
       src="https://code.jquery.com/jquery-3.2.1.min.js"
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -16,18 +20,41 @@
       <ul>
         <li>
           <a href="*">sketch</a>
+        </li>
+        <li>
           <a href="*">gallery</a>
         </li>
       </ul>
     </nav>
 
+    <div id="hero">
+      <img id="scroll-arrow" src="img/scrollarrow.svg" />
+    </div>
+
+    <div id="about">
+      <img id="paintbrush" src="img/brush.svg" />
+      <div id="column">
+        <h2>
+          about us
+        </h2>
+
+        <div class="body-text">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ut mauris pellentesque, ultricies neque ac, vestibulum nunc. In maximus convallis erat, id facilisis ligula varius ut. Etiam imperdiet in ex vitae efficitur. Nullam quis velit ultricies, gravida orci in, ultrices enim. Vivamus ac magna dignissim, luctus ligula sit amet, interdum sem. Nullam aliquet eleifend pellentesque. Donec ac tincidunt arcu, ut eleifend quam. Aliquam erat volutpat. In in risus vel tortor facilisis auctor. <br /><br />
+
+          Integer nec malesuada risus. Aenean volutpat est vitae accumsan consectetur. Nam in leo aliquet, lacinia ipsum ut, tincidunt velit. Duis vel finibus diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+        </div>
+      </div>
+    </div>
+
     <div id="upload-designs">
       <form enctype="multipart/form-data" id="upload-form">
-        <input type="text" name="name" placeholder="name"/>
-        <input type="text" name="email" placeholder="email"/>
-        <div id="drop-files">
-          <input type="file" name="fileToUpload" multiple="false" class="file-input" id="file">
-          <label for="file" id="file-input-label">Choose a file</label>
+        <input type="text" name="name" placeholder="name" class="text-field"/>
+        <input type="text" name="email" placeholder="email" class="text-field"/>
+        <div id="drop-files-border">
+          <div id="drop-files">
+            <input type="file" name="fileToUpload" multiple="false" class="file-input" id="file">
+            <label for="file" id="file-input-label">choose a file</label>
+          </div>
         </div>
         <input type="submit" value="submit your design" name="submit" id="submit">
       </form>
@@ -41,7 +68,7 @@
       $(document).ready(function() {
         var dropFile;
         var label = document.getElementById("file-input-label");
-        var labelVal = "Choose a file"
+        var labelVal = "choose a file"
 
         $("#drop-files").on("drop dragend dragstart dragenter dragleave drag dragover", function(event) {
           event.preventDefault();
